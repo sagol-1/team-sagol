@@ -2,7 +2,7 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.padding import PKCS7
 import os
 import base64
-import Key # Importing module containing Diffie-Hellman Key Exchange (DHKE) logic
+import AES.Key as Key # Importing module containing Diffie-Hellman Key Exchange (DHKE) logic
 
 class AES:
     def __init__(self, key):
@@ -48,18 +48,3 @@ class AES:
 
         # Step 5: Return the plaintext data
         return decrypted.decode()
-
-# Example Usage
-key = Key.firstCommunicationToMakeKey()
-aes = AES(key)  # Initialize AES encryption/decryption with the shared key
-
-# Encrypt a message
-data = "You cant crack this message."  # Raw plaintext data to be encrypted
-encrypted_data, iv = aes.encrypt(data)
-print("Raw data:", data)  # Display the original plaintext
-print("Encrypted Data:", encrypted_data)  # Display the Base64-encoded ciphertext
-print("IV:", iv)  # Display the Base64-encoded IV
-
-# Decrypt the message
-decrypted_data = aes.decrypt(encrypted_data, iv)
-print("Decrypted Data:", decrypted_data)  # Display the original plaintext after decryption
