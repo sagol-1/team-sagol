@@ -5,10 +5,10 @@ import base64
 import Key # Importing module containing Diffie-Hellman Key Exchange (DHKE) logic
 
 class AES:
-    def __init__(self):
+    def __init__(self, key):
         # Use the key exchange to generate a shared AES key
         # `firstCommunicationToMakeKey` uses DHKE to securely establish a shared key between two parties
-        self.key = Key.firstCommunicationToMakeKey()  # Generate 128-bit AES key via Diffie-Hellman
+        self.key = key  # Generate 128-bit AES key via Diffie-Hellman
 
     # Encrypt data
     def encrypt(self, data: str) -> tuple:
@@ -50,7 +50,8 @@ class AES:
         return decrypted.decode()
 
 # Example Usage
-aes = AES()  # Initialize AES encryption/decryption with the shared key
+key = Key.firstCommunicationToMakeKey()
+aes = AES(key)  # Initialize AES encryption/decryption with the shared key
 
 # Encrypt a message
 data = "You cant crack this message."  # Raw plaintext data to be encrypted
