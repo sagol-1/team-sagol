@@ -1,14 +1,20 @@
 from scapy.all import *
 from main_dataside import process_packet
 
-SRC_MAC="AA:AA:AA:AA:AA:AA"
-SRC_IP="10.0.0.1"
+A_MAC="AA:AA:AA:AA:AA:AA"
+A_IP="10.0.0.1"
 
-DST_MAC="CC:CC:CC:CC:CC:CC"
-DST_IP="10.0.0.2"
+C_MAC="CC:CC:CC:CC:CC:CC"
+C_IP="10.0.0.2"
 
-packet = Ether(src=SRC_MAC, dst=DST_MAC)/ \
-            IP(src=SRC_IP, dst=DST_IP)/ \
+D_MAC="DD:DD:DD:DD:DD:DD"
+D_IP="255.0.1.2"
+
+B_MAC="BB:BB:BB:BB:BB:BB"
+B_IP="225.0.1.3"
+
+packet = Ether(src=A_MAC, dst=B_MAC)/ \
+            IP(src=A_IP, dst=C_IP)/ \
             TCP(sport=20, dport=80)/ Raw(load="CHECK IF its WORKS PLEASE!")
 
 print("====================== BEFORE ENCRYPT ====================== ")
@@ -21,8 +27,4 @@ decrypt_pkt = process_packet(outgoing_pkt)
 print(decrypt_pkt.show())
 print("====================== FINISHED ====================== ")
 
-# RESULT_SRC_MAC="DD:DD:DD:DD:DD:DD"
-# RESULT_SRC_IP="255.0.1.2"
 
-# RESULT_DST_MAC="BB:BB:BB:BB:BB:BB"
-# RESULT_DST_IP="225.0.1.3"

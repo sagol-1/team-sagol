@@ -8,7 +8,7 @@ from encryptor import encryptor
 from decryptor import decryptor
 
 red_machine_ip = "10.0.0.1"
-black_machine_ip = "225.0.1.3"
+black_machine_ip = "10.0.0.2"
 
 # Example of two-way packet handling
 def process_packet(pkt):
