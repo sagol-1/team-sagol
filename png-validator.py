@@ -1,7 +1,6 @@
 def validate_png(image_path):
     try:
         cursor_0 = 0
-
         chunksList = []
     
         with open(image_path, 'r+b') as image:
@@ -11,12 +10,12 @@ def validate_png(image_path):
             start = 0
             stop = cursor_0+(8*2)
             cursor_0 = stop
+
             if hexData[start:stop] != "89504e470d0a1a0a":
                 #print("signature fail")
                 return False
             #else:
                 #print("signature succeeded")
-              
             
             read = True
 
@@ -59,7 +58,8 @@ def validate_png(image_path):
                 if chunkType == "IEND":
                     read = False
 
-        #here will be a condition that checks for duplicate chunks
+        # future: condition that checks for duplicate chunks
+        # future: condition that checks crc calculation
         chunksSet = set(chunksList)
         if("IHDR" not in chunksSet or "IDAT" not in chunksSet or "IEND" not in chunksSet):
             return False
