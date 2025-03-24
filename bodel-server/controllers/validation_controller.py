@@ -7,7 +7,7 @@ validation_router = APIRouter()
 @validation_router.post("/multi")
 async def check(files: List[UploadFile]) -> object:
     try:
-        validation_service(files)
+        return validation_service(files)
     except Exception as error:
         return error
     
