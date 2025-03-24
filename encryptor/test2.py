@@ -15,7 +15,8 @@ B_IP="225.0.1.3"
 
 packet = Ether(src=A_MAC, dst=B_MAC)/ \
             IP(src=A_IP, dst=C_IP)/ \
-            TCP(sport=20, dport=80)/ Raw(load="CHECK IF its WORKS PLEASE!")
+            TCP(sport=20, dport=80)/ \
+                Raw(load="CHECK IF its WORKS PLEASE!")
 
 print(" ================================== BEFORE ENCRYPT ================================== ")
 print(packet.show())
