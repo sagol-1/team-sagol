@@ -2,7 +2,6 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives.padding import PKCS7
 import os
 import base64
-import AES.Key as Key # Importing module containing Diffie-Hellman Key Exchange (DHKE) logic
 
 class AES:
     def __init__(self, key):
