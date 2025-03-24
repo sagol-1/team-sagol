@@ -19,4 +19,3 @@ def reconstruct_encrypted_pkt(encrypted_payload):
             IP(src=C_IP, dst=D_IP)/ \
                 encrypted_payload
                 
-
