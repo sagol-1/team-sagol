@@ -17,14 +17,14 @@ packet = Ether(src=A_MAC, dst=B_MAC)/ \
             IP(src=A_IP, dst=C_IP)/ \
             TCP(sport=20, dport=80)/ Raw(load="CHECK IF its WORKS PLEASE!")
 
-print("====================== BEFORE ENCRYPT ====================== ")
+print(" ================================== BEFORE ENCRYPT ================================== ")
 print(packet.show())
-print("====================== AFTER ENCRYPT ====================== ")
+print(" ================================== AFTER ENCRYPT ================================== ")
 outgoing_pkt = process_packet(packet)
 print(outgoing_pkt.show())
-print("====================== AFTER DECRYPT ====================== ")
+print(" ================================== AFTER DECRYPT ================================== ")
 decrypt_pkt = process_packet(outgoing_pkt)
 print(decrypt_pkt.show())
-print("====================== FINISHED ====================== ")
+print(" ================================== FINISHED ================================== ")
 
 
