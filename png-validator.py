@@ -1,7 +1,4 @@
 def validate_png(image_path):
-    PNG_MAGIC_NUMBER = "89504e470d0a1a0a"
-    PNG_MAGIC_NUMBER_SIZE = len(PNG_MAGIC_NUMBER)
-
     cursor_0 = 0
  
     with open(image_path, 'r+b') as image:
