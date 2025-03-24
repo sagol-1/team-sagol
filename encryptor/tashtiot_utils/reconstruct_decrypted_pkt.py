@@ -1,8 +1,14 @@
 # from scapy.all import *
 
-# # Reconstruct packet with decrypted payload bytes to send out
-# # With updated addresses
-# def reconstruct_decrypted_pkt(decrypted_payload):
-#     pkt = Ether(src = "ff:ff:ff:ff:ff:ff", dst="00:B0:D0:63:C2:26") / IP(src = "196.168.1.100", dst="12.0.0.1") / decrypted_payload # Create packet with decrypted payload
-#     pkt[Raw].load = decrypted_payload # Update payload
-#     return pkt
+A_MAC="AA:AA:AA:AA:AA:AA"
+D_IP="255.0.1.2"
+B_IP="225.0.1.3"
+B_MAC="BB:BB:BB:BB:BB:BB"
+
+# Reconstruct packet with decrypted payload bytes to send out
+# With updated addresses
+def reconstruct_decrypted_pkt(decrypted_payload):
+    return Ether(src=A_MAC, dst=B_MAC)/ \
+            IP(src=D_IP, dst=B_IP)/ \
+                decrypted_payload
+                
