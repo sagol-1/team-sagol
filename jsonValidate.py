@@ -19,4 +19,4 @@ def validateJsonToSchemas(jsonData: object, schemas: List[Dict[str, Any]]) -> bo
 
 schemas = [alerts, status_update]
 
-print(validateJsonToSchemas({"alert_id":1, "camera_id":1, "timestamp":"2025-03-24T07:12:42.218753", "status":"1", "image_path":"asdas", "confidence":2,"user_id": "sas",}, schemas))
+print(validateJsonToSchemas({"alert_id":1, "camera_id":1, "timestamp":"2025-03-24T07:12:42.218753Z", "status":"pending", "image_path":"asdas.png", "confidence":0.5,"user_id": "sas",}, schemas))

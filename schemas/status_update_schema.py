@@ -3,7 +3,7 @@ status_update = {
   "properties": {
     "alert_id": { "type": "integer" },
     "message": { "type": ["string", "null"] },
-    "status": { "type": "string" },
+    "status": { "type": "string", "enum": ["pending", "condemned", "cleared"] },
     "user_id": { "type": ["string", "null"] },
   },
   "required": ["alert_id", "status"],
