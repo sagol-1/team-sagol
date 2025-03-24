@@ -28,7 +28,7 @@ def checkChecksumValidation(data):
 
     if(sum == '11111111'):
         data = data[:len(data) - 1]
-        return True
+        return True, data
     
     return False
 
