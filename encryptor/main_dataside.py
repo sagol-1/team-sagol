@@ -7,9 +7,8 @@ from tashtiot_utils.reconstruct_decrypted_pkt import reconstruct_decrypted_pkt
 from encryptor import encryptor
 from decryptor import decryptor
 
-main_iface_ip = "ENTER IP HERE"
-red_machine_ip = "ENTER IP HERE"
-black_machine_ip = "ENTER IP HERE"
+red_machine_ip = "10.0.0.1"
+black_machine_ip = "10.0.0.2"
 
 # Example of two-way packet handling
 def process_packet(pkt):
@@ -30,7 +29,8 @@ def process_packet(pkt):
         outgoing_pkt = reconstruct_decrypted_pkt(decrypted_payload) # Construct full valid decrypted packet to send
     
     # Send new packet on layer 3
-    send(outgoing_pkt)
+    return outgoing_pkt
+    # send(outgoing_pkt)
 
 # Monitor interface for traffic and handle each packet
-sniff(prn=process_packet)
+# sniff(prn=process_packet)
