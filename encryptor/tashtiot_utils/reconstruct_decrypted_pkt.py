@@ -10,5 +10,5 @@ B_MAC="BB:BB:BB:BB:BB:BB"
 def reconstruct_decrypted_pkt(decrypted_payload):
     return Ether(src=A_MAC, dst=B_MAC)/ \
             IP(src=D_IP, dst=B_IP)/ \
-                decrypted_payload
+                scapy.layers.inet.TCP(decrypted_payload)
                 
