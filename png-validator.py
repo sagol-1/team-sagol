@@ -58,8 +58,10 @@ def validate_png(image_path):
                 if chunkType == "IEND":
                     read = False
 
-        chunksSet = set(chunksList)
         #here will be a condition that checks for duplicate chunks
+        chunksSet = set(chunksList)
+        if("IHDR" not in chunksSet or "IDAT" not in chunksSet or "IEND" not in chunksSet):
+            return False
         print(chunksList)
         return True
     except Exception as e:
