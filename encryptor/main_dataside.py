@@ -29,6 +29,7 @@ def process_packet(pkt):
         outgoing_pkt = reconstruct_decrypted_pkt(decrypted_payload) # Construct full valid decrypted packet to send
     
     # Send new packet on layer 3
+    return outgoing_pkt
     # send(outgoing_pkt)
 
 # Monitor interface for traffic and handle each packet
