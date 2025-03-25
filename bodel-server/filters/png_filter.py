@@ -1,6 +1,6 @@
 from PIL import Image, PngImagePlugin
 
-def validate_png(image_path):
+def png_validation(image_path):
     try:
         with open(image_path, 'r+b') as image:
             if(not image.read().hex().startswith("89504e470d0a1a0a")):
@@ -50,9 +50,9 @@ def validate_png(image_path):
         return False
 
 # usage example
-#print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\beach.jpg"))
-#print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\bird.png"))
-#print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\butterfly.png"))
-#print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\cat.jpg"))
-#print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\mario.png"))
-#print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\sunflower.jpg"))
+#print(png_validation(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\beach.jpg"))
+#print(png_validation(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\bird.png"))
+#print(png_validation(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\butterfly.png"))
+#print(png_validation(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\cat.jpg"))
+#print(png_validation(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\mario.png"))
+#print(png_validation(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\sunflower.jpg"))
