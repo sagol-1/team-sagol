@@ -4,8 +4,7 @@ from tashtiot_utils.get_payload_to_encrypt import get_payload_to_encrypt
 from tashtiot_utils.get_payload_to_decrypt import get_payload_to_decrypt
 from tashtiot_utils.reconstruct_encrypted_pkt import reconstruct_encrypted_pkt
 from tashtiot_utils.reconstruct_decrypted_pkt import reconstruct_decrypted_pkt
-from encryptor import encryptor
-from decryptor import decryptor
+from Matzpin import encryptor, decryptor
 
 red_machine_ip = "10.0.0.1"
 black_machine_ip = "10.0.0.2"
