@@ -14,6 +14,10 @@ def validate_png(image_path):
         if(chunkList[0] != "IHDR" or chunkList[len(chunkList) - 1] != "IEND"):
             return False
         
+        if("PLTE" in chunkList):
+            if(chunkList.index("PLTE") > chunkList.index("IDAT") or chunkList.count("PLTE") > 1):
+                return False
+        
         validChunkHeaders = {"IHDR", "PLTE", "IDAT", "IEND", "bKGD", "cHRM", "cICP", "dSIG", "eXIf", "gAMA", "hIST", "iCCP", "iTXt", "pHYs", "sBIT", "sPLT", "sRGB", "sTER", "tEXt", "tIME", "tRNS", "zTXt"}
         
         chunksSet = set(chunkList)
