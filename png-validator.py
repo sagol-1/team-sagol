@@ -69,13 +69,6 @@ def validate_png(image_path):
         print("Exception occured: ")
         print(e)
         return False
- 
- 
- 
-# usage examples
-print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\beach.jpg"))
-print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\bird.png"))
-print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\butterfly.png"))
-print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\cat.jpg"))
-print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\mario.png"))
-print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\sunflower.jpg"))
+
+# usage example
+# print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\beach.jpg"))
