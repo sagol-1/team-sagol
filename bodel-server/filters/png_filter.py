@@ -4,7 +4,6 @@ def validate_png(image_path):
     try:
         with open(image_path, 'r+b') as image:
             if(not image.read().hex().startswith("89504e470d0a1a0a")):
-                print("signature invalid")
                 return False
             
         im = Image.open(image_path)
@@ -13,7 +12,7 @@ def validate_png(image_path):
 
         if(chunkList[0] != "IHDR" or chunkList[len(chunkList) - 1] != "IEND"):
             return False
-        
+                
         if("PLTE" in chunkList):
             if(chunkList.index("PLTE") > chunkList.index("IDAT") or chunkList.count("PLTE") > 1):
                 return False
@@ -25,7 +24,22 @@ def validate_png(image_path):
         for chunkHeader in chunksSet:
             if(chunkHeader not in validChunkHeaders):
                 return False
+            
+        for chunkHeaderIndex, chunkHeader in enumerate(chunkList):
+            if chunkHeader in {"sPLT", "iTXt", "tEXt", "zTXt"}:
+                if chunkHeader == "sPLT" and chunkHeaderIndex < chunkList.index("IDAT"):
+                    return False
+            else:
+                if chunkHeader != "IDAT" and chunkList.count(chunkHeader) > 1:
+                    return False
+                if chunkHeader == "pHYs" and chunkHeaderIndex < chunkList.index("IDAT"):
+                    return False
+                if chunkHeader in {"bKGD", "hIST", "tRNS"} and chunkHeaderIndex < len(chunkList) - 1 - chunkList[::-1].index("IDAT") and chunkHeaderIndex > chunkList.index("PLTE"):
+                    return False
+                elif chunkHeader in {"cHRM", "gAMA", "iCCP", "sBIT", "sRGB"} and chunkHeaderIndex > len(chunkList) - 1 - chunkList[::-1].index("IDAT"):
+                    return False
 
+            
         if("IHDR" not in chunksSet or "IDAT" not in chunksSet or "IEND" not in chunksSet):
             return False
 
@@ -36,4 +50,9 @@ def validate_png(image_path):
         return False
 
 # usage example
-print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\bird.png"))
+#print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\beach.jpg"))
+#print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\bird.png"))
+#print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\butterfly.png"))
+#print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\cat.jpg"))
+#print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\mario.png"))
+#print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\sunflower.jpg"))
