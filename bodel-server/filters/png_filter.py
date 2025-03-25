@@ -1,71 +1,58 @@
-def png_validation(png_img):
+from PIL import Image, PngImagePlugin
+
+def png_validation(image_path):
     try:
-        cursor_0 = 0
-        chunksList = []
-    
-        with open(png_img, 'r+b') as image:
-            hexData = image.read().hex()
-    
-            # check signature / magic bytes
-            start = 0
-            stop = cursor_0+(8*2)
-            cursor_0 = stop 
-
-            if hexData[start:stop] != "89504e470d0a1a0a":
-                #print("signature fail")
+        with open(image_path, 'r+b') as image:
+            if(not image.read().hex().startswith("89504e470d0a1a0a")):
                 return False
-            #else:
-                #print("signature succeeded")
             
-            read = True
+        im = Image.open(image_path)
+        rawChunkList = PngImagePlugin.getchunks(im)
+        chunkList = list(map(lambda element: element[0].decode(), rawChunkList))
 
-            while read:
-                # new chunk reading
-                # read length of the chunk (4 bytes)
-                start = cursor_0
-                stop = cursor_0+(4*2)
-                cursor_0 = stop
-                chunkDataLength = int(hexData[start:stop],16)
-                #print("chunk data length")
-                #print(chunkDataLength)
+        if(chunkList[0] != "IHDR" or chunkList[len(chunkList) - 1] != "IEND"):
+            return False
+                
+        if("PLTE" in chunkList):
+            if(chunkList.index("PLTE") > chunkList.index("IDAT") or chunkList.count("PLTE") > 1):
+                return False
+        
+        validChunkHeaders = {"IHDR", "PLTE", "IDAT", "IEND", "bKGD", "cHRM", "cICP", "dSIG", "eXIf", "gAMA", "hIST", "iCCP", "iTXt", "pHYs", "sBIT", "sPLT", "sRGB", "sTER", "tEXt", "tIME", "tRNS", "zTXt"}
+        
+        chunksSet = set(chunkList)
 
-                # read type of the chunk (4 bytes)
-                start = cursor_0
-                stop = cursor_0+(4*2)
-                cursor_0 = stop
-                chunkTypeHex = hexData[start:stop]
-                chunkType = bytes.fromhex(hexData[start:stop]).decode()
-                #print("chunk type: ")
-                #print(chunkType)
-                chunksList.append(chunkType)
+        for chunkHeader in chunksSet:
+            if(chunkHeader not in validChunkHeaders):
+                return False
+            
+        for chunkHeaderIndex, chunkHeader in enumerate(chunkList):
+            if chunkHeader in {"sPLT", "iTXt", "tEXt", "zTXt"}:
+                if chunkHeader == "sPLT" and chunkHeaderIndex < chunkList.index("IDAT"):
+                    return False
+            else:
+                if chunkHeader != "IDAT" and chunkList.count(chunkHeader) > 1:
+                    return False
+                if chunkHeader == "pHYs" and chunkHeaderIndex < chunkList.index("IDAT"):
+                    return False
+                if chunkHeader in {"bKGD", "hIST", "tRNS"} and chunkHeaderIndex < len(chunkList) - 1 - chunkList[::-1].index("IDAT") and chunkHeaderIndex > chunkList.index("PLTE"):
+                    return False
+                elif chunkHeader in {"cHRM", "gAMA", "iCCP", "sBIT", "sRGB"} and chunkHeaderIndex > len(chunkList) - 1 - chunkList[::-1].index("IDAT"):
+                    return False
 
-                # read the data of the chunk (variable)
-                start = cursor_0
-                stop = cursor_0+(chunkDataLength*2)
-                cursor_0 = stop
-                chunkDataHex = hexData[start:stop]
-                # print("chunk data hex: ")
-                # print(chunkDataHex)
-
-                # read the CRC of the chunk (4 bytes)
-                start = cursor_0
-                stop = cursor_0+(4*2)
-                cursor_0 = stop
-                chunkCrcHex = hexData[start:stop]
-                #print("chunk crc hex: ")
-                #print(chunkCrcHex)
-
-                if chunkType == "IEND":
-                    read = False
-
-        # future: condition that checks for duplicate chunks
-        # future: condition that checks crc calculation
-        chunksSet = set(chunksList)
+            
         if("IHDR" not in chunksSet or "IDAT" not in chunksSet or "IEND" not in chunksSet):
             return False
-        #print(chunksList)
+
         return True
     except Exception as e:
         print("Exception occured: ")
         print(e)
         return False
+
+# usage example
+#print(png_validation(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\beach.jpg"))
+#print(png_validation(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\bird.png"))
+#print(png_validation(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\butterfly.png"))
+#print(png_validation(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\cat.jpg"))
+#print(png_validation(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\mario.png"))
+#print(png_validation(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\sunflower.jpg"))
