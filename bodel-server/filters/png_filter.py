@@ -9,12 +9,7 @@ def validate_png(image_path):
             
         im = Image.open(image_path)
         rawChunkList = PngImagePlugin.getchunks(im)
-        chunkList = []
-
-        for segment in rawChunkList:
-            chunkList.append(segment[0].decode())
-
-        print(chunkList)
+        chunkList = list(map(lambda element: element[0].decode(), rawChunkList))
 
         if(chunkList[0] != "IHDR" or chunkList[len(chunkList) - 1] != "IEND"):
             return False
@@ -37,4 +32,4 @@ def validate_png(image_path):
         return False
 
 # usage example
-#print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\bird.png"))
+print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\bird.png"))
