@@ -39,5 +39,3 @@ def convertToBinary(messageStr):
 def convertToString(checkSum):
     subBlocks = [checkSum[CSindex:CSindex + BITS_AMOUNT] for CSindex in range(0, len(checkSum), BITS_AMOUNT)]
     return ''.join(chr(int(block, BINARY_BASE)) for block in subBlocks)
-
-print(checkChecksumValidation("hello88y"))
