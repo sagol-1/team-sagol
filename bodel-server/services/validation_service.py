@@ -9,7 +9,7 @@ def validation_service(files: List[UploadFile]) -> None:
         isValid = True
         for file in files:
             if file.filename.lower().endswith('.png'):
-                isValid = isValid and png_validation(file.file.read())
+                isValid = isValid and png_validation(file.file)
             elif file.filename.lower().endswith('.json'):
                 isValid = isValid and validateJsonToSchemas(file.file.read())
         return isValid

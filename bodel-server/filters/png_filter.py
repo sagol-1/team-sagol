@@ -2,9 +2,9 @@ from PIL import Image, PngImagePlugin
 
 def png_validation(image_path):
     try:
-        with open(image_path, 'r+b') as image:
-            if(not image.read().hex().startswith("89504e470d0a1a0a")):
-                return False
+        if(not image_path.read().hex().startswith("89504e470d0a1a0a")):
+            print("error")
+            return False
             
         im = Image.open(image_path)
         rawChunkList = PngImagePlugin.getchunks(im)
