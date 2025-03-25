@@ -9,7 +9,7 @@ def validate_png(image_path):
             # check signature / magic bytes
             start = 0
             stop = cursor_0+(8*2)
-            cursor_0 = stop
+            cursor_0 = stop 
 
             if hexData[start:stop] != "89504e470d0a1a0a":
                 #print("signature fail")
