@@ -14,6 +14,7 @@ class AES:
     def encrypt(self, data: str) -> tuple:
         # Step 1: Generate a random Initialization Vector (IV)
         iv = os.urandom(16)  
+        print("iv: "+str(iv))
 
         # Step 2: Set up AES cipher with the provided key and IV in CBC mode
         cipher = Cipher(algorithms.AES(self.key), modes.CBC(iv))
@@ -28,11 +29,19 @@ class AES:
         # Step 5: Encrypt the padded data
         encrypted = encryptor.update(padded_data) + encryptor.finalize()
 
+        enctyptedString = base64.b64encode(iv).decode() + base64.b64encode(encrypted).decode()
+
         # Step 6: Return Base64-encoded ciphertext and IV for safe storage or transmission
-        return base64.b64encode(encrypted).decode(), base64.b64encode(iv).decode()
+        return enctyptedString
 
     # Decrypt data
-    def decrypt(self, encrypted_data: str, iv: str) -> str:
+    def decrypt(self, encrypted_data: str) -> str:
+
+        # Extract the IV and ciphertext from the Base64-encoded input
+        iv = encrypted_data[:24]  # Extract the first 24 characters as the IV
+        print("iv: "+str(iv))
+        encrypted_data = encrypted_data[24:]  # The rest is the ciphertext
+
         # Step 1: Recreate the AES cipher using the same key and IV in CBC mode
         cipher = Cipher(algorithms.AES(self.key), modes.CBC(base64.b64decode(iv)))
 
@@ -55,11 +64,10 @@ aes = AES(key)  # Initialize AES encryption/decryption with the shared key
 
 # Encrypt a message
 data = "You cant crack this message."  # Raw plaintext data to be encrypted
-encrypted_data, iv = aes.encrypt(data)
+encrypted_data= aes.encrypt(data)
 print("Raw data:", data)  # Display the original plaintext
 print("Encrypted Data:", encrypted_data)  # Display the Base64-encoded ciphertext
-print("IV:", iv)  # Display the Base64-encoded IV
 
 # Decrypt the message
-decrypted_data = aes.decrypt(encrypted_data, iv)
+decrypted_data = aes.decrypt(encrypted_data)
 print("Decrypted Data:", decrypted_data)  # Display the original plaintext after decryption
