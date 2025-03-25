@@ -1,71 +1,40 @@
-def png_validation(png_img):
+from PIL import Image, PngImagePlugin
+
+def validate_png(image_path):
     try:
-        cursor_0 = 0
-        chunksList = []
-    
-        with open(png_img, 'r+b') as image:
-            hexData = image.read().hex()
-    
-            # check signature / magic bytes
-            start = 0
-            stop = cursor_0+(8*2)
-            cursor_0 = stop 
-
-            if hexData[start:stop] != "89504e470d0a1a0a":
-                #print("signature fail")
+        with open(image_path, 'r+b') as image:
+            if(not image.read().hex().startswith("89504e470d0a1a0a")):
+                print("signature invalid")
                 return False
-            #else:
-                #print("signature succeeded")
             
-            read = True
+        im = Image.open(image_path)
+        rawChunkList = PngImagePlugin.getchunks(im)
+        chunkList = []
 
-            while read:
-                # new chunk reading
-                # read length of the chunk (4 bytes)
-                start = cursor_0
-                stop = cursor_0+(4*2)
-                cursor_0 = stop
-                chunkDataLength = int(hexData[start:stop],16)
-                #print("chunk data length")
-                #print(chunkDataLength)
+        for segment in rawChunkList:
+            chunkList.append(segment[0].decode())
 
-                # read type of the chunk (4 bytes)
-                start = cursor_0
-                stop = cursor_0+(4*2)
-                cursor_0 = stop
-                chunkTypeHex = hexData[start:stop]
-                chunkType = bytes.fromhex(hexData[start:stop]).decode()
-                #print("chunk type: ")
-                #print(chunkType)
-                chunksList.append(chunkType)
+        print(chunkList)
 
-                # read the data of the chunk (variable)
-                start = cursor_0
-                stop = cursor_0+(chunkDataLength*2)
-                cursor_0 = stop
-                chunkDataHex = hexData[start:stop]
-                # print("chunk data hex: ")
-                # print(chunkDataHex)
+        if(chunkList[0] != "IHDR" or chunkList[len(chunkList) - 1] != "IEND"):
+            return False
+        
+        validChunkHeaders = {"IHDR", "PLTE", "IDAT", "IEND", "bKGD", "cHRM", "cICP", "dSIG", "eXIf", "gAMA", "hIST", "iCCP", "iTXt", "pHYs", "sBIT", "sPLT", "sRGB", "sTER", "tEXt", "tIME", "tRNS", "zTXt"}
+        
+        chunksSet = set(chunkList)
 
-                # read the CRC of the chunk (4 bytes)
-                start = cursor_0
-                stop = cursor_0+(4*2)
-                cursor_0 = stop
-                chunkCrcHex = hexData[start:stop]
-                #print("chunk crc hex: ")
-                #print(chunkCrcHex)
+        for chunkHeader in chunksSet:
+            if(chunkHeader not in validChunkHeaders):
+                return False
 
-                if chunkType == "IEND":
-                    read = False
-
-        # future: condition that checks for duplicate chunks
-        # future: condition that checks crc calculation
-        chunksSet = set(chunksList)
         if("IHDR" not in chunksSet or "IDAT" not in chunksSet or "IEND" not in chunksSet):
             return False
-        #print(chunksList)
+
         return True
     except Exception as e:
         print("Exception occured: ")
         print(e)
         return False
+
+# usage example
+#print(validate_png(r"C:\\Users\DanielPorath\Documents\TEAM-SAGOL\images\bird.png"))
