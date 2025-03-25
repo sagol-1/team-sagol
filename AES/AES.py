@@ -25,7 +25,7 @@ class AES:
         padder = PKCS7(algorithms.AES.block_size).padder()
         padded_data = padder.update(data.encode()) + padder.finalize()
 
-        # Step 5: Encrypt the padded data
+        # Step 5: Encrypt the padded data>
         encrypted = encryptor.update(padded_data) + encryptor.finalize()
 
         # Step 6: Return Base64-encoded ciphertext and IV for safe storage or transmission
@@ -48,6 +48,8 @@ class AES:
 
         # Step 5: Return the plaintext data
         return decrypted.decode()
+    
+  
 
 # Example Usage
 key = Key.firstCommunicationToMakeKey()
