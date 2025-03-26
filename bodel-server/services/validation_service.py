@@ -13,7 +13,7 @@ def validation_service(json: UploadFile, png: UploadFile) -> None:
         is_type_correct = png.filename.lower().endswith('.png') and json.filename.lower().endswith('.json')
         is_files_valid = png_validation(png.file) and validateJsonToSchemas(json.file.read())
         if is_type_correct and is_files_valid:
-            post_data(files_dict={'png': png, 'json': json})
+            post_data(files_dict={'png': png.file, 'json': json.file})
         else:
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
         return "ok"
