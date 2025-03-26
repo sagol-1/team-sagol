@@ -7,9 +7,11 @@ app = FastAPI()
 @app.middleware("http")
 async def add_process_time_header(request: Request, call_next):
     with open('whitelist.txt', 'r') as whitelist_file:
-        whitelist = whitelist_file.readlines()
+        whitelist = whitelist_file.read().splitlines()
 
         
+    print(whitelist)
+
     if request.client.host in whitelist:
         response = await call_next(request)
             
