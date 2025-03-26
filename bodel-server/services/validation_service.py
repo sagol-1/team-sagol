@@ -13,12 +13,12 @@ def validation_service(json: UploadFile, png: UploadFile) -> None:
         is_type_correct = png.filename.lower().endswith('.png') and json.filename.lower().endswith('.json')
         is_files_valid = png_validation(png.file) and validateJsonToSchemas(json.file.read())
         if is_type_correct and is_files_valid:
-                send_data(png, json)
+            post_data(files_dict={'png': png, 'json': json})
         else:
-            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="Files invalid.")
-        return "Files sent."
-    except Exception as error:
-        return HTTPException(status_code=500, detail="Something went wrong -> " + error)
+            raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
+        return "ok"
+    except Exception:
+        return HTTPException(status_code=500)
 
-def send_data(png: UploadFile, json: UploadFile):
-    httpx.post(URL, data={'png': png, 'json': json})
+async def post_data(files_dict: dict):
+    httpx.post(URL, data=files_dict)
